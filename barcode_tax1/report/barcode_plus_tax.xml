@@ -1,0 +1,83 @@
+<odoo>
+    <data>
+        <template id="barcode_plus_tax"
+                  inherit_id="product.report_simple_label_dymo">
+            <xpath expr="//t[@t-name='product.report_simple_label_dymo']" position="replace">
+                    <t t-name="product.report_simple_label_dymo">
+              <div class="o_label_sheet o_label_dymo" t-att-style="padding_page">
+                <div class="o_label_full" t-att-style="table_style">
+<!--                    <div class=" o_label_name text-right" style="line-height: 60%;height:1.6em;background-color: transparent; margin-left:10px;">-->
+                    <div class=" o_label_name text-center" style="line-height: 60%;height:1.6em;background-color: transparent;">
+
+                       <span>ســــوتــــــــلاش</span>
+                        <img src='/web/binary/company_logo' style="width:22px;height:22px;"/>
+                        <!--<img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' %res_company.logo"/>-->
+                    </div>
+
+                    <div class="border-top">
+                        <div class="col-12">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <t t-if="product.x_studio_many2manyfieldbill">
+                            <div class="col-11  text-right " style ="font-size:7px;margin-right=100%">
+                                <!--<t t-foreach="product.x_studio_many2many_field_ddW4a" t-as="i">-->
+                                <t t-foreach="product.x_studio_many2manyfieldbill" t-as="i">
+                                    <span t-field="i.product_tmpl_id" class="label_code" style="padding: 0.5em;text-overflow: ellipsis;"/>
+                                </t>
+                           </div>
+                          <!--<div class=" text-right"  style ="font-size:12px;padding: 0 2px;"><Strong>-:المكونـات</Strong></div>-->
+                      </t>
+                    </div>
+
+                    <div class="text-left o_label_small_barcode">
+                        <t t-if="barcode">
+                            <!-- `quiet=0` to remove the left and right margins on the barcode -->
+                            <div t-out="barcode" style="padding:0" t-options="{'widget': 'barcode', 'quiet': 0, 'symbology': 'auto', 'img_style': barcode_size}"/>
+                            <div class="o_label_name" style="line-height: 10%;height:1.0em;background-color: transparent;">
+                                <span t-out="barcode"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="o_label_left_column">
+                        <small class="text-nowrap" t-field="product.default_code"/>
+                    </div>
+<!--                                        <div class="text-right" style="padding: 0 4px;">-->
+
+
+                   <div class="row">
+                      <div class="col-8 text-right" style="font-size:10px;">
+                        <div class="o_label_full" t-att-style="table_style">
+                            <div class="o_label_name" style="line-height: 80%;height:1.8em;background-color: transparent; ">
+                                <span t-field="product.display_name"/>
+                            </div>
+                        </div>
+                      </div>
+                        <div class="col-4 text-right" style="">
+                           <t t-if="product.is_product_variant">
+                                 <t t-set="foo" t-value="product.lst_price + product.lst_price * .15" t-options="{'widget': 'monetary', 'label_price': True}"/>
+                                         <strong class="o_label_price_small"   t-out="foo" /> <!--<span>SR</span>-->
+                            </t>
+                            <t t-else="">
+                                <strong class="o_label_price_small" t-field=" product.list_price" t-options="{'widget': 'monetary', 'label_price': True}"/>
+                            </t>
+                            <div class="o_label_extra_data">
+                                <t t-out="extra_html"/>
+                            </div>
+                        </div>
+                </div>
+
+
+                </div>
+            </div>
+        </t>
+
+                </xpath>
+
+
+
+        </template>
+    </data>
+</odoo>
