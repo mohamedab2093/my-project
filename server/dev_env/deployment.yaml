@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+#  namespace: prod
+  labels:
+    app: web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+#      namespace: prod
+  template:
+    metadata:
+      labels:
+        app: web-app
+#        namespace: prod
+    spec:
+      serviceAccountName: nfs-client-provisioner    
+      containers:
+        - name: web-app
+          #          image:  065181751611.dkr.ecr.us-east-2.amazonaws.com/odoo:0ced39ab6acc270a324334df8a083e1f1bdf3ffe
+          image: 065181751611.dkr.ecr.us-east-2.amazonaws.com/odoo:IMAGE_TAG
+          #image: 065181751611.dkr.ecr.us-east-2.amazonaws.com/odoo:d20471d848a605bacc3f9fb29b529a7a8b3eb3b2
+          #image: 065181751611.dkr.ecr.us-east-2.amazonaws.com/odoo:7cff193186dd54fe4578ae4afb6f06af098baf6c
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: "/mnt/data"          
+          ports:
+            - containerPort: 8069
+          resources:
+            requests:       
+               memory: "250Mi"
+               cpu: "250m"
+#             limits:
+#               memory: "750Mi"      
+#               cpu: "600m"           
+#when  go to prodction  must use limits cpu: 1   requests: cpu: 0.5 beacuse on my case the quota is limited.#       #
+                 
+          env:                  
+
+          - name: PROVISIONER_NAME
+            value: efs-storage
+          - name: NFS_SERVER
+            value: fs-05a2ada6c1e00dcad.efs.us-east-2.amazonaws.com
+          - name: NFS_PATH
+            value: /              
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: fs-05a2ada6c1e00dcad.efs.us-east-2.amazonaws.com
+            path: /
+---                      
+         
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web-app
+#  namespace: prod
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web-app
+  minReplicas: 2
+  maxReplicas: 18
+#in  prodction   maxReplicas: 12  should  beacuse on my case the quota is limited.                       
+
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: AverageValue
+        averageValue: 500Mi
+
