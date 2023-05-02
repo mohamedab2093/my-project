@@ -1,0 +1,10 @@
+#!/bin/bash
+now=$(date +"%m_%d_%Y")
+rm -rf /home/odoo14/backup/*  \
+&& /usr/lib/postgresql/12/bin/pg_dump --no-owner --file=/home/odoo14/backup/dump_$now.sql Pet_planet_live \
+&& zip -r  /home/odoo14/backup/filestore_$now.zip  /home/odoo14/.local/share/Odoo/filestore/*  \
+&& zip -r  /home/odoo14/backup/custom-addons_$now.zip  /home/odoo14/custom-addons/*  \
+&& /home/odoo14/Downloads/b2-linux   upload-file leenoda  /home/odoo14/backup/dump_$now.sql   dump_$now.sql \
+&& /home/odoo14/Downloads/b2-linux   upload-file leenoda  /home/odoo14/backup/filestore_$now.zip    filestore_$now.zip \
+&& /home/odoo14/Downloads/b2-linux   upload-file leenoda  /home/odoo14/backup/custom-addons_$now.zip    custom-addons_$now.zip 
+
