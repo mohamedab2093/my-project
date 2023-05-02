@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: staging
+  labels:
+    app: web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+      namespace: staging
+  template:
+    metadata:
+      labels:
+        app: web-app
+        namespace: staging
+    spec:
+      containers:
+        - name: web-app
+          image: REGISTRY_HOSTNAME/GKE_GCR/IMAGE:GITHUB_SHA                  
+          lifecycle:
+            postStart:
+                  exec:
+                    # command: ["/bin/sh", "-c" , "PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c 'CREATE DATABASE odoo1;' , PGPASSWORD=odoo psql  -h postgres-service  -p 5432 -U odoo  odoo1  < /mnt/db/DB/dump.sql"]
+                    #if PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c '\l'  | grep -q 'odoo2'; then   echo "matched"; "PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c 'CREATE DATABASE odoo2;' , PGPASSWORD=odoo psql  -h postgres-service  -p 5432 -U odoo  odoo2  < /mnt/db/DB/dump.sql" ; fi
+                    #if PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c '\l'  | grep -q 'odoo1'; then   echo "matched"; else echo "not matched" ; fi
+                    
+                    command: ["/bin/sh", "-c" , /mnt/db/psql.sh && /mnt/db/fstore.sh ]          
+          ports:
+            - containerPort: 8069
+          resources:
+            limits:
+              cpu: 500m 
+            requests:
+              cpu: 400m                                        
+##when  go to prodction  must use limits cpu: 1   requests: cpu: 0.5 beacuse on my case the quota is limited.#       
+                 
+          env:
+          - name: DB_ENV_POSTGRES_USER
+            valueFrom:
+               secretKeyRef:
+                 name: postgres-secret   
+                 key: POSTGRES_USER
+          - name: DB_ENV_POSTGRES_PASSWORD
+            valueFrom:
+               secretKeyRef:
+                 name: postgres-secret   
+                 key: POSTGRES_PASSWORD  
+          - name: DB_PORT_5432_TCP_ADDR
+            valueFrom:
+               configMapKeyRef:
+                 name: postgres-configmap  
+                 key: database_url                      
+          volumeMounts:
+            - name: my-pvc
+              mountPath: "/mnt/data"
+      volumes:
+        - name: my-pvc
+          persistentVolumeClaim:
+            claimName: nfs-staging     
+
+
+
+
+

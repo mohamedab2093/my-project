@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_product_pivot_oe_inherit" model="ir.ui.view">
+        <field name="name">view.order.product.pivot.oe_inherit</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_pivot"/>
+        <field name="arch" type="xml">
+<!--            <field name="team_id" position="replace">-->
+<!--            </field>-->
+            <field name="date" position="after">
+<!--                <field name="product_id" type="measure"/>-->
+<!--                <field name="default_code" type="measure"/>-->
+                <field name="product_uom_qty" type="measure"/>
+            </field>
+        </field>
+    </record>
+
+<!--    <record id="view_order_product_search_oe_inherit" model="ir.ui.view">-->
+<!--        <field name="name">view.order.product.search.oe_inherit</field>-->
+<!--        <field name="model">sale.report</field>-->
+<!--        <field name="inherit_id" ref="sale.view_order_product_search"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="date" position="after">-->
+<!--                <field name="seller_id"/>-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

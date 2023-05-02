@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="wizard_import_line" model="ir.ui.view">
+            <field name="name">wizard.import.lines.form</field>
+            <field name="model">import.line</field>
+            <field name="arch" type="xml">
+                <form >
+                    <group>
+                        <field name="File_slect" filename="name"/>
+                    </group>
+
+                    <footer>
+                        <button string="Import" name="import_file"
+                                type="object" class="oe_highlight" />
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="wizard_import_line_action" model="ir.actions.act_window">
+            <field name="name">Import Contract Lines</field>
+            <field name="res_model">import.line</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_import_line"/>
+            <field name="target">new</field>
+        </record>
+
+
+    </data>
+</odoo>

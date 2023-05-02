@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="pickup_point_view_form" model="ir.ui.view">
+            <field name="name">Pickup Point</field>
+            <field name="model">pickup.point</field>
+            <field name="arch" type="xml">
+                <form string="Pickup Point">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="address"/>
+                        </group>
+                    </sheet>
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="pickup_point_view_tree" model="ir.ui.view">
+            <field name="name">Pickup Points</field>
+            <field name="model">pickup.point</field>
+            <field name="arch" type="xml">
+                <tree string="Pickup Points">
+                    <field name="name"/>
+                    <field name="address"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_pickup_point" model="ir.actions.act_window">
+            <field name="name">Pickup Points</field>
+            <field name="res_model">pickup.point</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Define a new pickup point
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_pickup_point" name="Pickup Points" action="action_pickup_point"
+                  parent="account.account_invoicing_menu" sequence="1"/>
+
+    </data>
+</odoo>

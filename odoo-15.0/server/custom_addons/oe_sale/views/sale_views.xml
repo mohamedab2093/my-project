@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_pickup_point_id" model="ir.ui.view">
+        <field name="name">sale.order.form.pickup_point_id</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='sale_header']//group[@name='partner_details']" position="inside">
+                <field name="pickup_point_id" options="{'no_create': True}"
+                       attrs="{'readonly': [('state', 'in', ['cancel', 'sent'])]}"/>
+                <field name="external_id"/>
+                <field name="action_id"/>
+            </xpath>
+            <xpath expr="//group[@name='sale_header']//group[@name='order_details']" position="inside">
+                <label for="commitment_date" string="Delivery Date"/>
+                <div name="commitment_date_div" class="o_row">
+                    <field name="commitment_date" required="1"/>
+                    <span name="expected_date_span" class="text-muted">Expected: <field name="expected_date" widget="date"/></span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_form_inherit_sale_stock_oe_inherit" model="ir.ui.view">
+        <field name="name">view.order.form.inherit.sale.stock.oe_inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_row')]//field[@name='commitment_date']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

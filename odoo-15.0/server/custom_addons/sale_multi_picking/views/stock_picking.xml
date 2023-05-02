@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="inherit_view_picking_form" model="ir.ui.view">
+            <field name="name">inherit_view_picking_form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet//group//group[1]" position="inside">
+                    <field name="pickup_point_id" options="{'no_create': True}"
+                           attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="fresh_type"/>
+                    <field name="user_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="inherit_vpicktree" model="ir.ui.view">
+            <field name="name">inherit_vpicktree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="fresh_type"/>
+                    <field name="user_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="inherit_stock_picking_kanban" model="ir.ui.view">
+            <field name="name">inherit_stock_picking_kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.stock_picking_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="inside">
+                    <field name="id" />
+                    <field name="move_ids_without_package" />
+                    <field name="products_html" />
+                </xpath>
+                <xpath expr="//kanban/templates/t[1]/div[1]" position="attributes">
+                    <attribute name="t-attf-class">oe_kanban_card</attribute>
+                </xpath>
+                <xpath expr="//kanban/templates/t[1]/div[1]" position="inside">
+                    <!--t-attf-onclick="window.location.href='/web#id=#{record.id.raw_value}&amp;model=stock.picking&amp;view_type=form'"-->
+                    <button class="btn btn-sm btn-primary" t-if="record.id.raw_value" type="object" name="action_open_picking_client_action">Edit</button>
+                    <button class="btn btn-sm btn-success" t-if="record.state.raw_value == 'assigned'" type="object" name="button_validate">Validate</button>
+                    <div>
+                        <t t-set="index" t-value="0" />
+                        <t t-foreach="record.products_html.raw_value.split(',')" t-as="p">
+                            <t t-set="index" t-value="index+1" />
+                            <t t-if="index == 1">
+                                <h3 class="mb-0 mt-2"><t t-esc="p" /></h3>
+                            </t>
+                            <t t-else="">
+                                <t t-esc="p" /> <br />
+                            </t>
+                        </t>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

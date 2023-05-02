@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="stock.action_picking_tree_ready" model="ir.actions.act_window">
+            <field name="name">To Do</field>
+            <field name="res_model">stock.picking</field>
+
+            <field name="context">{'contact_display': 'partner_address', 'search_default_available': 1, 'search_default_waiting': 1}</field>
+
+       </record>
+
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="fresh_type" required="1"/>
+                </xpath>
+            </field>
+        </record>
+            <record id="product_stock_picking_kanban_view" model="ir.ui.view">
+        <field name="name">stock.picking.product.kanban.inherit.rental</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="count_picking_ready" position="after">
+<!--<field name="count_picking_ready_waiting"/>-->
+            <field name="incoming_picking_ready_waiting"/>
+            <field name="outgoing_picking_ready_waiting"/>
+            <field name="internal_picking_ready_waiting"/>
+            </field>
+            <button name="get_action_picking_tree_ready" position="replace">
+                                                <button class="btn btn-primary" name="get_action_picking_tree_ready" type="object">
+<!--                                                    <span t-if="record.code.raw_value =='incoming'"><t t-esc="record.count_picking_ready_waiting.value"/> To Process</span>-->
+<!--                                                    <span t-if="record.code.raw_value =='outgoing'"><t t-esc="record.count_picking_ready_waiting.value"/> To Process</span>-->
+<!--                                                    <span t-if="record.code.raw_value =='internal'"><t t-esc="record.count_picking_ready_waiting.value"/> To Process</span>-->
+
+                                                    <span t-if="record.code.raw_value =='incoming'"><t t-esc="record.incoming_picking_ready_waiting.value"/> To Process</span>
+                                                    <span t-if="record.code.raw_value =='outgoing'"><t t-esc="record.outgoing_picking_ready_waiting.value"/> To Process</span>
+                                                    <span t-if="record.code.raw_value =='internal'"><t t-esc="record.internal_picking_ready_waiting.value"/> To Process</span>
+                                                </button>
+            </button>
+
+        </field>
+    </record>
+
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="fresh_type" required="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

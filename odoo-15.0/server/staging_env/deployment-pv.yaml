@@ -1,0 +1,55 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: regionalpd-storageclass-deployment
+  namespace:  staging
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-ssd
+  replication-type: regional-pd
+allowedTopologies:
+  - matchLabelExpressions:
+      - key: failure-domain.beta.kubernetes.io/zone
+        values:
+          - europe-west1-b
+          - europe-west1-c
+           
+         
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: deployment-pv
+  namespace: staging
+spec:
+  storageClassName: regionalpd-storageclass-deployment
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: stagingpv
+#   namespace: staging 
+# spec:
+#   capacity:
+#     storage: 20Gi
+#   accessModes:
+#     - ReadWriteMany
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: stagingpv
+#   namespace: staging
+# spec:
+#   accessModes:
+#     - ReadWriteMany
+#   storageClassName: ""
+#   resources:
+#     requests:
+#       storage:  20Gi
+

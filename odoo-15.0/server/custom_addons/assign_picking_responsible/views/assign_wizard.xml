@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_responsible_to_picking" model="ir.ui.view">
+        <field name="name">view_responsible_to_picking</field>
+        <field name="model">picking.assign.responsible</field>
+        <field name="arch" type="xml">
+            <form string="Assign Responsible">
+                <sheet>
+                    <group>
+                        <field name="user_id"/>
+                    </group>
+                </sheet>
+
+               <footer>
+                   <button name="action_done" string="Confirm" type="object" class="oe_highlight"/>
+                   <button string="Cancel" class="btn btn-default" special="cancel"/>
+               </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

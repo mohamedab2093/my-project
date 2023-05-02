@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  #: GH_USERNAME
+  labels:
+    app: web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+      #: GH_USERNAME
+  template:
+    metadata:
+      labels:
+        app: web-app
+        #: GH_USERNAME
+    spec:
+      containers:
+        - name: web-app
+          image: REGISTRY_HOSTNAME/GKE_GCR/IMAGE:GITHUB_SHA                                 
+          lifecycle:
+            postStart:
+                  exec:
+                    # command: ["/bin/sh", "-c" , "PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c 'CREATE DATABASE odoo1;' , PGPASSWORD=odoo psql  -h postgres-service  -p 5432 -U odoo  odoo1  < /mnt/db/DB/dump.sql"]
+                    #if PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c '\l'  | grep -q 'odoo2'; then   echo "matched"; "PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c 'CREATE DATABASE odoo2;' , PGPASSWORD=odoo psql  -h postgres-service  -p 5432 -U odoo  odoo2  < /mnt/db/DB/dump.sql" ; fi
+                    #if PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c '\l'  | grep -q 'odoo1'; then   echo "matched"; else echo "not matched" ; fi
+                    
+                    command: ["/bin/sh", "-c" , /mnt/db/psql.sh && /mnt/db/fstore.sh ]
+                    
+                    # if PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c '\l'  | grep -q 'odoo3'; then   echo "matched"; else PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo  -d   postgres  -c 'CREATE DATABASE odoo3;' && PGPASSWORD=odoo psql  -h postgres-service  -p 5432 -U odoo  odoo3  < /mnt/db/DB/dump.sql ; fi
+
+
+          #image: gcr.io/light-quest-349811/web-app@sha256:7cbc51fc3fb2954521d016ec6cd0a4ca5ee5f1261c961c46754f63b518ad54ce
+                     #command: ["/bin/sh", "-c" , "PGPASSWORD=odoo psql -h postgres-service  -p 5432  -U odoo   -c 'CREATE DATABASE odoo123;'  "]
+                    #  command: ["/bin/sh", "-c" , "PGPASSWORD=odoo psql  -h postgres-service  -p 5432 -U odoo  odoo114  < /mnt/db/DB/dump.sql"]
+
+          ## #image: gcr.io/light-quest-349811/web-app@sha256:7cbc51fc3fb2954521d016ec6cd0a4ca5ee5f1261c961c46754f63b518ad54ce
+     
+
+                  
+          ports:
+            - containerPort: 8069
+          resources:
+            limits:
+              cpu: 500m 
+            requests:
+              cpu: 400m                                        
+#when  go to prodction  must use limits cpu: 1   requests: cpu: 0.5 beacuse on my case the quota is limited.#       #
+                 
+          env:
+          - name: DB_ENV_POSTGRES_USER
+            valueFrom:
+               secretKeyRef:
+                 name: postgres-secret   
+                 key: POSTGRES_USER
+          - name: DB_ENV_POSTGRES_PASSWORD
+            valueFrom:
+               secretKeyRef:
+                 name: postgres-secret   
+                 key: POSTGRES_PASSWORD  
+          - name: DB_PORT_5432_TCP_ADDR
+            valueFrom:
+               configMapKeyRef:
+                 name: postgres-configmap  
+                 key: database_url                      
+      #     volumeMounts:
+      #       - name: my-pvc
+      #         mountPath: "/mnt/data"
+      # volumes:
+      #   - name: my-pvc
+      #     persistentVolumeClaim:
+      #       claimName: nfs     
+
+
+
+
+
+                

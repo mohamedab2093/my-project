@@ -1,0 +1,66 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-web-app
+  namespace: GH_USERNAME
+  annotations:
+    cert-manager.io/issuer: letsencrypt-GH_USERNAME
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "10000"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "10000"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "10000"
+    nginx.ingress.kubernetes.io/proxy-body-size: 10g
+    nginx.ingress.kubernetes.io/client-max-body-size: "900m"    
+    # nginx.ingress.kubernetes.io/client-body-buffer-size: "100m"
+    # nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+    # nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m"
+    # nginx.ingress.kubernetes.io/proxy-http-version: 1.0
+    # nginx.ingress.kubernetes.io/x-forwarded-prefix: /path
+    # nginx.ingress.kubernetes.io/proxy-redirect-from: http://35.187.2.118:8069 
+    # nginx.ingress.kubernetes.io/proxy-redirect-to: https://GH_USERNAME.stage.inharf.xyz
+    # nginx.ingress.kubernetes.io/rewrite-target: /path
+    # nginx.ingress.kubernetes.io/tls-acme: "true"
+    # #nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+
+
+
+
+
+    # certmanager.k8s.io/acme-challenge-type: dns01
+    # nginx.ingress.kubernetes.io/proxy-body-size: "200m"
+
+
+
+
+
+
+    # nginx.ingress.kubernetes.io/proxy-connect-timeout: "10000s"
+    # nginx.ingress.kubernetes.io/proxy-send-timeout: "10000s"
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: "10000s"
+    # nginx.ingress.kubernetes.io/proxy-body-size: 10g
+    # nginx.ingress.kubernetes.io/limit-connections: '10'
+    # nginx.ingress.kubernetes.io/limit-rpm: '60'
+    # nginx.ingress.kubernetes.io/service-upstream: "true"
+    # nginx.ingress.kubernetes.io/client-body-buffer-size: 1M
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"    
+
+spec:
+  tls:
+    - hosts:
+      - GH_USERNAME.stage.inharf.xyz
+      secretName: letsencrypt-prod  
+  ingressClassName: nginx
+  rules:
+    - host: GH_USERNAME.stage.inharf.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web-app-service
+                port:
+                  number: 8069
+  # ingressClassName: nginx                   
+
+        

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="external_layout_standard_oe_inherit" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[contains(@t-attf-class, 'header')]" position="replace">
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="row">
+                    <div class="col-3 mt-1 mb-3">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 60px;" alt="Logo"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <t t-set="partner_id" t-value="company.partner_id"/>
+                    <div class="col-6">
+                        <h2 style="font-size:28px; font-weight:bold;" t-field="partner_id.name"></h2>
+                    </div>
+                    <div class="col-6">
+                        <p t-if="partner_id.street or company.vat" class="m-0">
+                            <span t-if="partner_id.street" t-field="partner_id.street"/>
+                            <t t-if="partner_id.street and company.vat"> | </t>
+                            <t t-if="company.vat">TRN: <span t-field="company.vat"/></t>
+                        </p>
+                        <p t-if="partner_id.zip or partner_id.state_id or partner_id.country_id" class="m-0">
+                            <t t-if="partner_id.zip">PO Box <span t-field="partner_id.zip"/><t t-if="partner_id.state_id">, </t></t>
+                            <t t-if="partner_id.state_id"><span t-field="partner_id.state_id.name"/><t t-if="partner_id.country_id">, </t></t>
+                            <t t-if="partner_id.country_id">
+                                <t t-if="partner_id.country_id.code == 'AE'">
+                                    UAE
+                                </t>
+                                <t t-else="">
+                                    <span t-field="partner_id.country_id.code"/>
+                                </t>
+                            </t>
+                        </p>
+                        <p t-if="partner_id.street2" class="m-0"><span t-field="partner_id.street2"/></p>
+                        <p t-if="partner_id.country_id" class="m-0"><span t-field="partner_id.country_id.name"/></p>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'o_report_layout_standard')]" position="replace">
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <div class="pt-4">
+                    <!-- This div ensures that the address is not cropped by the header. -->
+                    <t t-call="web.address_layout"/>
+                </div>
+                <t t-out="0"/>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
+            <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+                <div class="text-center" style="border-top: 1px solid black;">
+                    <div t-if="report_type == 'pdf'" class="text-muted">
+                        Page: <span class="page"/> / <span class="topage"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

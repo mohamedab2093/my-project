@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_base_automation_form_oe_inherit" model="ir.ui.view">
+        <field name="name">view.base.automation.form.oe_inherit</field>
+        <field name="model">base.automation</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="base_automation.view_base_automation_form"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//field[@name='name']" position="attributes">
+        		<attribute name="placeholder">e.g. Product</attribute>
+        	</xpath>
+            <xpath expr="//field[@name='state']" position="before">
+           		<field name="is_webhook"/>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="attributes">
+        		<attribute name="readonly">1</attribute>
+        	</xpath>
+        </field>
+    </record>
+
+    <record id="action_webhook_automation" model="ir.actions.act_window">
+		<field name="name">Automated Webhooks</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">base.automation</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[['is_webhook', '=', True]]</field>
+		<field name="context">{'default_is_webhook': True, 'default_state': 'code'}</field>
+		<field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('base_automation.view_base_automation_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_base_automation_form_oe_inherit')})]"/>
+		<field name="help" type="html">
+		    <p class="o_view_nocontent_smiling_face">
+                Create a new Automated Webhook
+            </p>
+            <p>
+            	Webhooks are user-defined HTTP callbacks that can be used to perform push notifications.
+            </p>
+	    </field>
+	</record>
+
+    <menuitem id="menu_webhook_automation" name="Automated Webhooks"
+		parent="base.menu_automation" action="action_webhook_automation"/>
+</odoo>

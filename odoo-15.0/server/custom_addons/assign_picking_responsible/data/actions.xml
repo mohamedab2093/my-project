@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="action_responsible_to_picking" model="ir.actions.server">
+            <field name="name">Assign Responsible</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_view_types">tree,form,list</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = model.action_responsible_to_picking_wizard()
+            </field>
+        </record>
+    </data>
+</odoo>
