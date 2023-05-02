@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="my_module_my_view_form">
+            <field name="name">My_saas_view</field>
+            <field name="model">my.saas</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                  <sheet>
+                    <group>
+                      <header>
+                        <button name="create_nodejs_dockerfile" string="Create Node.js Docker Container" type="object" class="btn-primary"/>
+                      </header>
+                      <field name = "name"/>
+                      <field name = "image_name"/>
+                      <field name = "container_name"/>
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="my_module_my_view_tree">
+            <field name="name">My View</field>
+            <field name="model">my.saas</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name = "name"/>
+                    <field name="image_name"/>
+                    <field name="container_name"/>
+                </tree>
+            </field>
+        </record>
+        <menuitem id="menu_my_saas_root"
+            name="My SaaS"
+            sequence="10"
+            action="action_my_saas_main"
+        />
+
+        <record id="action_my_saas_main" model="ir.actions.act_window">
+          <field name="name">My SaaS Main</field>
+          <field name="res_model">my.saas</field>
+          <field name="view_mode">tree,form</field>
+<!--          <field name="search_view_id" ref="my_saas.view_my_saas_main_search"/>-->
+          <field name="context">{"search_default_status":"open"}</field>
+          <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Start by creating a new My SaaS.
+            </p>
+          </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <menuitem id="menu_node_js" name="Node.js Docker" sequence="100" />
+        <menuitem id="menu_node_js_form" name="Node.js Docker" parent="menu_node_js" action="node_js_form_action" sequence="10"/>
+        <record id="node_js_form_action" model="ir.actions.act_window">
+            <field name="name">Node.js Docker</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">node.js</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="node_js_form_view"/>
+        </record>
+    </data>
+</odoo>

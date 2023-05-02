@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_lab_form" model="ir.ui.view">
+        <field name="name">lab.view.form</field>
+        <field name="model">labemp</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <header>
+
+                    <field name="state" widget="statusbar" clickable="1" statusbar_visible="draft,chek"/>
+                </header>
+                <sheet>
+
+                    <div class="o_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+
+                        </h1>
+
+
+                    </div>
+
+                    <group string="صورة شخصية ">
+                        <field name="pic" widget="image"/>
+
+                    </group>
+                    <group col="4">
+                        <separator string="البيانات الاساسية " colspan="4"/>
+                        <notebook>
+
+                            <page string="بيانات شخصية ">
+                                 <group class="o_label_nowrap">
+                                <field name="reference"/>
+                                <field name="nnid"/>
+                                <field name="date"/>
+                                <field name="age"/>
+                               <field name="egy_id"/>
+                                <field name="sa_id"/>
+                                <field name="job_id"/>
+
+
+
+                                 </group>
+                            </page>
+
+
+
+
+                        <page string="تقرير الطبيب" groups="Lab_Emp.group_emblab_manager">
+                              <group class="o_label_nowrap">
+                        <field name="is_accept"/>
+                        <field name="is_not_accept"/>
+                        <field name="is_not_reson"/>
+                        <field name="is_positive"/>
+                        <field name="is_negative"/>
+                        <field name="resultdate"/>
+                        <field name="doct_id"/>
+                        <field name="reson_id"/>
+
+                       </group>
+                       </page>
+                      </notebook>
+
+                    </group>
+
+                </sheet>
+            </form>
+
+
+        </field>
+    </record>
+
+    <record id="view_lab_tree" model="ir.ui.view">
+        <field name="name">lab.view.tree</field>
+        <field name="model">labemp</field>
+        <field name="arch" type="xml">
+            <tree string="كل الطلبات " multi_edit="1">
+
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="nnid"/>
+                <field name="date"/>
+                <field name="age"/>
+                <field name="egy_id"/>
+                <field name="sa_id"/>
+                <field name="job_id"/>
+                <field name="is_accept"/>
+                <field name="is_not_accept"/>
+                <field name="is_not_reson"/>
+                <field name="is_positive"/>
+                <field name="is_negative"/>
+                <field name="resultdate"/>
+                <field name="doct_id"/>
+                <field name="reson_id"/>
+                <field name="state"/>
+
+
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_lab_emp_search">
+        <field name="name">lab.emp.search</field>
+        <field name="model">labemp</field>
+        <field name="arch" type="xml">
+            <search string="بحث برقم البطاقة ">
+                <field name="nnid"/>
+
+
+            </search>
+
+
+        </field>
+
+
+    </record>
+
+    //---------------------------------------------------------------//
+    <record id="view_labemp_kanban" model="ir.ui.view">
+        <field name="name">labemp.kanban</field>
+        <field name="model">labemp</field>
+        <field name="arch" type="xml">
+            <kanban default_order="id asc">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="egy_id"/>
+                <field name="age"/>
+                <field name="sa_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <ul>
+                                    <li>
+                                        ID:
+                                        <field name="reference"/>
+                                    </li>
+                                    <li>
+                                        Name:
+                                        <field name="name"/>
+                                    </li>
+                                    <li>
+                                        Age:
+                                        <field name="age"/>
+                                    </li>
+                                    <li>
+                                        Gender:
+                                        <field name="egy_id"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    //----------------------------------------------------------------//
+    <record id="actions_lab_view" model="ir.actions.act_window">
+        <field name="name">طلبات العمال</field>
+        <field name="res_model">labemp</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+    <record id="actions_egycom_view" model="ir.actions.act_window">
+        <field name="name">الشركات المصرية</field>
+        <field name="res_model">egycom</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+    <record id="actions_sgycom_view" model="ir.actions.act_window">
+        <field name="name">الشركات السعودية</field>
+        <field name="res_model">sgycom</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+    <record id="actions_empjob_view" model="ir.actions.act_window">
+        <field name="name">انواع المهن</field>
+        <field name="res_model">empjob</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+    <record id="actions_labdoct_view" model="ir.actions.act_window">
+        <field name="name">الاطباء</field>
+        <field name="res_model">labdoct</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+
+    <record id="actions_labreson_view" model="ir.actions.act_window">
+        <field name="name">اسباب الرفض</field>
+        <field name="res_model">labreson</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+
+
+
+    <menuitem id="lab_root_menu"
+              name="برنامج الفحص"
+              sequence="1"/>
+    ///------------------------------------------////
+    <menuitem id="lab_main_menu"
+              name="الفحص"
+              sequence="1"
+              parent="lab_root_menu"/>
+    ///------------------------------------------////
+
+    <menuitem id="lab_all_menu"
+              name="كل العاملين"
+              sequence="1"
+              parent="lab_main_menu"
+              action="actions_lab_view"/>
+    ///------------------------------------------////
+    <menuitem id="comp_main_menu"
+              name="الشركات المصرية "
+              sequence="1"
+              parent="lab_root_menu"/>
+    <menuitem id="comp_all_menu"
+              name="الشركات المصرية "
+              sequence="1"
+              parent="comp_main_menu"
+              action="actions_egycom_view"/>
+    ///------------------------------------------////
+    <menuitem id="sa_main_menu"
+              name="الشركات السعودية"
+              sequence="1"
+              parent="lab_root_menu"/>
+    <menuitem id="sa_com_all_menu"
+              name="الشركات السعودية"
+              sequence="1"
+              parent="sa_main_menu"
+              action="actions_sgycom_view"/>
+    //---------------------------------------------------////
+    <menuitem id="dot_main_menu"
+              name="الاطباء"
+              sequence="1"
+              parent="lab_root_menu"/>
+    <menuitem id="doct_all_menu"
+              name="كل الاطباء"
+              sequence="1"
+              parent="dot_main_menu"
+              action="actions_labdoct_view"/>
+    //-------------------------------------------------------------------////
+    <menuitem id="job_main_menu"
+              name="انواع المهن"
+              sequence="1"
+              parent="lab_root_menu"/>
+    <menuitem id="job_all_menu"
+              name="انواع المهن"
+              sequence="1"
+              parent="job_main_menu"
+              action="actions_empjob_view"/>
+
+    //-----------------------------------------------------------------------------///
+    <menuitem id="reson_main_menu"
+              name="اسباب الرفض"
+              sequence="1"
+              parent="lab_root_menu"/>
+    <menuitem id="reson_all_menu"
+              name="كل الاسباب"
+              sequence="1"
+              parent="reson_main_menu"
+              action="actions_labreson_view"/>
+    //------------------------------------------------------------------------///
+
+
+</odoo>

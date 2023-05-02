@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_labresult_form" model="ir.ui.view">
+        <field name="name">labresult.view.form</field>
+        <field name="model">labresult</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                        <field name="resultdate"/>
+                        <field name="doct_id"/>
+                        <field name="reson_id"/>
+
+                        <field name="cust_lab"/>
+
+                        <field name="is_accept"/>
+                        <field name="is_not_accept"/>
+                        <field name="is_not_reson"/>
+
+                        <field name="is_positive"/>
+                        <field name="is_negative"/>
+
+
+                    </group>
+                </sheet>
+            </form>
+
+
+        </field>
+    </record>
+
+    <record id="view_labresult_tree" model="ir.ui.view">
+        <field name="name">labresult.view.tree</field>
+        <field name="model">labresult</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+
+            </tree>
+        </field>
+    </record>
+    //------------------------------------------------------------------///
+
+
+
+    //------------------------------------------------------------------------////
+
+
+</odoo>
+

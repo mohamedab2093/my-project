@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_labemp,access.labemp,model_labemp,group_emblab_manager,1,1,1,1
+access_egycom,access.egycom,model_egycom,group_emblab_manager,1,1,1,1
+access_empjob,access.empjob,model_empjob,group_emblab_manager,1,1,1,1
+access_labresult,access.labresult,model_labresult,group_emblab_manager,1,1,1,1
+access_labdoct,access.labdoct,model_labdoct,group_emblab_manager,1,1,1,1
+access_labreson,access.labreson,model_labreson,group_emblab_manager,1,1,1,1
+access_sgycom,access.sgycom,model_sgycom,group_emblab_manager,1,1,1,1
+
+

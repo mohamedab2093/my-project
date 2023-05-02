@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+        <record id="view_labdoct_form" model="ir.ui.view">
+            <field name ="name">labdoct.view.form</field>
+            <field name ="model">labdoct</field>
+            <field name="arch" type="xml">
+                <form>
+                <sheet>
+                    <group>
+                         <field name="name"/>
+
+                    </group>
+                </sheet>
+                </form>
+
+
+
+            </field>
+        </record>
+
+         <record id="view_labdoct_tree" model="ir.ui.view">
+            <field name ="name">labdoct.view.tree</field>
+            <field name ="model">labdoct</field>
+             <field name="arch" type="xml">
+                 <tree>
+                  <field name="name"/>
+
+                 </tree>
+            </field>
+        </record>
+ <record id="actions_labdoct_view" model="ir.actions.act_window">
+            <field name ="name">الاطباء</field>
+            <field name ="res_model">labdoct</field>
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+
+
+    </odoo>
+

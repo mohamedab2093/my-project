@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for hr.resignation -->
+        <record id="seq_lab_resignation" model="ir.sequence">
+            <field name="name">emp lab</field>
+            <field name="code">labemp</field>
+            <field name="prefix">emp</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,10 @@
+<odoo>
+
+        <record id="group_emblab_manager" model="res.groups">
+            <field name="name">EmbLab / Manager</field>
+        </record>
+
+
+
+
+</odoo>
